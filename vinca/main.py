@@ -86,7 +86,12 @@ def generate_output(pkg_shortname, vinca_conf, distro):
     output['requirements']['run'].extend(resolved_python)
     output['requirements']['host'].extend(resolved_python)
     if pkg.get_build_type() in ['cmake', 'catkin']:
-        output['script'] = 'bld_catkin.bat'
+        # TODO find a way to get the conda "comments" with ruamel
+        # output['script'] = ['bld_catkin.bat  # [win]', 'build_catkin.sh  # [unix]']
+        if sys.platform.startswith('win'):
+            output['script'] = 'bld_catkin.bat'
+        else:
+            output['script'] = 'build_catkin.sh'
     elif pkg.get_build_type() in ['ament_cmake']:
         output['script'] = 'bld_ament_cmake.bat'
     elif pkg.get_build_type() in ['ament_python']:

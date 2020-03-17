@@ -12,7 +12,12 @@ def resolve_pkgname_from_indexes(pkg_shortname, conda_index):
     for i in conda_index:
         if pkg_shortname in i:
             # TODO: replace with platform variable.
-            return i[pkg_shortname]['win64']
+            platform = 'unix'
+            if platform in i[pkg_shortname].keys():
+                return i[pkg_shortname][platform]
+            elif 'any' in i[pkg_shortname].keys():
+                return i[pkg_shortname]['any']
+            raise KeyError("Missing package for platform {}: {}\nCheck your conda metadata!".format(platform, pkg_shortname))
     return None
 
 
