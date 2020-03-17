@@ -54,12 +54,18 @@ python-yaml:
   any: [pyyaml]
 python3-yaml:
   any: [pyyaml]
+python-setuptools:
+  any: [setuptools]
 python3-setuptools:
   any: [setuptools]
 python3-catkin-pkg-modules:
   any: [catkin_pkg]
+python-catkin-pkg-modules:
+  any: [catkin_pkg]
 python3-rosdep-modules:
   any: [rosdep]
+python-rosdep-modules:
+  any: ['rosdep']
 libboost-system-dev:
   any: [boost]
 libboost-date-time-dev:
@@ -148,7 +154,11 @@ eigen:
   any: [eigen]
 assimp:
   any: [assimp]
+assimp-dev:
+  any: [assimp]
 libqt5-opengl:
+  any: [qt]
+libqt5-opengl-dev:
   any: [qt]
 libqt5-widgets:
   any: [qt]
@@ -180,6 +190,8 @@ python3-pydot:
   any: [pydot]
 python3-matplotlib:
   any: [matplotlib-base]
+python-qt5-bindings:
+  any: [pyqt]
 python3-qt5-bindings:
   any: [pyqt]
 python3-psutil:
@@ -196,3 +208,19 @@ libzmq3-dev:
   any: [zeromq]
 libboost-program-options-dev:
   any: [boost-cpp]
+libboost-filesystem-dev:
+  any: [boost-cpp]
+libogre-dev:
+  any: [ogre 1.10.*]
+liburdfdom-dev:
+  any: ['urdfdom']
+liburdfdom-headers-dev:
+  any: ['urdfdom_headers']
+yaml-cpp:
+  any: ['yaml-cpp']
+python-wxtools:
+  any: ['wxpython']
+python-pycryptodome:
+  any: ['pycryptodome']
+graphviz:
+  any: ['graphviz']
