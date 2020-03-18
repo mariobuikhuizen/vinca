@@ -5,11 +5,12 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
-skip_all_deps: true
+skip_all_deps: false
 
 packages_skip_by_deps:
 
 packages_select_by_deps:
-  - rviz
+  # - rviz
+  - rostest
 
 patch_dir: patch

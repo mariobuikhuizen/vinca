@@ -5,7 +5,7 @@ python-rospkg:
 python3-rospkg:
   any: [rospkg]
 boost:
-  any: ['boost 1.72.*']
+  any: ['boost']
 python-argparse:
   any: []
 python-catkin-pkg:
@@ -13,11 +13,11 @@ python-catkin-pkg:
 python3-catkin-pkg:
   any: [catkin_pkg]
 python:
-  any: ['python {{ python }}']
+  any: ['python']
 python3:
-  any: ['python {{ python }}']
+  any: ['python']
 python3-dev:
-  any: ['python {{ python }}']
+  any: ['python']
 python-rosdep:
   any: [rosdep]
 python3-rosdep:
@@ -67,11 +67,11 @@ python3-rosdep-modules:
 python-rosdep-modules:
   any: ['rosdep']
 libboost-system-dev:
-  any: ['boost 1.72.*']
+  any: ['boost']
 libboost-date-time-dev:
-  any: ['boost 1.72.*']
+  any: ['boost']
 libboost-thread-dev:
-  any: ['boost 1.72.*']
+  any: ['boost']
 libpoco-dev:
   any: [poco]
 python-gnupg:
@@ -104,7 +104,11 @@ lz4:
 python-defusedxml:
   any: [defusedxml]
 python-numpy:
-  any: ['numpy 1.14.*']
+  win64: ['numpy']
+  unix: ['numpy', 'openblas']
+python3-numpy:
+  win64: ['numpy']
+  unix: ['numpy', 'openblas']
 python3-pytest:
   any: [pytest]
 python3-rosdistro-modules:
@@ -121,8 +125,6 @@ python3-pkg-resources:
   any: []
 python3-cryptography:
   any: [cryptography]
-python3-numpy:
-  any: ['numpy 1.14.*']
 python3-ifcfg:
   any: [ifcfg]
 python3-flake8:
@@ -202,15 +204,15 @@ sdl-image:
 graphicsmagick:
   any: [graphicsmagick]
 libboost-program-options:
-  any: ['boost 1.72.*']
+  any: ['boost']
 sdl:
   any: [sdl2]
 libzmq3-dev:
   any: [zeromq]
 libboost-program-options-dev:
-  any: ['boost-cpp 1.72.*']
+  any: ['boost-cpp']
 libboost-filesystem-dev:
-  any: ['boost-cpp 1.72.*']
+  any: ['boost-cpp']
 libogre-dev:
   any: [ogre 1.10.*]
 liburdfdom-dev:

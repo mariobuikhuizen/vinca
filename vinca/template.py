@@ -84,3 +84,9 @@ def generate_activate_hook():
     template_in = pkg_resources.resource_filename(
       'vinca', 'templates/deactivate.bat.in')
     generate_template(template_in, open('deactivate.bat', 'w'))
+    template_in = pkg_resources.resource_filename(
+      'vinca', 'templates/activate.sh.in')
+    generate_template(template_in, open('activate.sh', 'w'))
+    template_in = pkg_resources.resource_filename(
+      'vinca', 'templates/deactivate.sh.in')
+    generate_template(template_in, open('deactivate.sh', 'w'))
