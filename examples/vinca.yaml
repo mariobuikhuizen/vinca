@@ -10,7 +10,6 @@ skip_all_deps: false
 packages_skip_by_deps:
 
 packages_select_by_deps:
-  # - rviz
-  - rostest
+  - rviz
 
 patch_dir: patch

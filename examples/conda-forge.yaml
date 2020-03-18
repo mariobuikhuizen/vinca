@@ -154,7 +154,7 @@ python3-lxml:
 openssl:
   any: [openssl]
 eigen:
-  any: [eigen]
+  any: ['eigen', 'openblas']
 assimp:
   any: [assimp]
 assimp-dev:
@@ -214,7 +214,10 @@ libboost-program-options-dev:
 libboost-filesystem-dev:
   any: ['boost-cpp']
 libogre-dev:
-  any: [ogre 1.10.*]
+  # ogre has to be pinned here exactly, otherwise GL is missing
+  # can't do this in conda_build_config unfortunately
+  unix: [ogre 1.10.12 h6508522_3]
+  win64: [ogre 1.10]
 liburdfdom-dev:
   any: ['urdfdom']
 liburdfdom-headers-dev:
@@ -224,6 +227,6 @@ yaml-cpp:
 python-wxtools:
   any: ['wxpython']
 python-pycryptodome:
-  any: ['pycryptodome']
+  any: ['pycryptodome', 'pycryptodomex']
 graphviz:
   any: ['graphviz']

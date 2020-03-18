@@ -27,12 +27,11 @@ python:
 python_impl:
   - cpython
 boost:
-  - 1.70.0
+  - 1.72.0
 boost_cpp:
-  - 1.70.0
+  - 1.72.0
 numpy:
-  - 1.14       # [not (aarch64 or ppc64le)]
-  - 1.16       # [aarch64 or ppc64le]
+  - 1.14
 openblas:
   - 0.3.6
 openmpi:
