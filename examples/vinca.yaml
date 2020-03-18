@@ -5,8 +5,9 @@ conda_index:
   - conda-forge.yaml
   - packages-ignore.yaml
 
+skip_all_deps: true
+
 packages_skip_by_deps:
-  # - catkin
 
 packages_select_by_deps:
   - rviz

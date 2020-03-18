@@ -92,6 +92,7 @@ def generate_output(pkg_shortname, vinca_conf, distro):
             output['script'] = 'bld_catkin.bat'
         else:
             output['script'] = 'build_catkin.sh'
+
     elif pkg.get_build_type() in ['ament_cmake']:
         output['script'] = 'bld_ament_cmake.bat'
     elif pkg.get_build_type() in ['ament_python']:
@@ -132,6 +133,21 @@ def generate_output(pkg_shortname, vinca_conf, distro):
     output['requirements']['run'] = sorted(output['requirements']['run'])
     output['requirements']['host'] = sorted(output['requirements']['host'])
 
+    # fix up OPENGL support for Unix
+    if 'REQUIRE_OPENGL' in output['requirements']['run']:
+        # add requirements for opengl
+        output['requirements']['run'].remove('REQUIRE_OPENGL')
+        output['requirements']['host'].remove('REQUIRE_OPENGL')
+        output['requirements']['build'] += [
+            "{{ cdt('mesa-libgl-devel') }}  [linux]",
+            "{{ cdt('mesa-dri-drivers') }}  [linux]",
+            "{{ cdt('libselinux') }}  [linux]",
+            "{{ cdt('libxdamage') }}  [linux]",
+            "{{ cdt('libxxf86vm') }}  [linux]"
+        ]
+        output['requirements']['host'] += ['xorg-libxfixes  [linux]']
+        output['requirements']['run'] += ['xorg-libxfixes  [linux]']
+
     return output
 
 
@@ -168,12 +184,16 @@ def generate_source(distro, vinca_conf):
 def get_selected_packages(distro, vinca_conf):
     selected_packages = set()
     skipped_packages = set()
+
+    skip_all_deps = vinca_conf['skip_all_deps']
+
     if vinca_conf['packages_select_by_deps']:
         for i in vinca_conf['packages_select_by_deps']:
             selected_packages = selected_packages.union([i])
-            pkgs = distro.get_depends(i)
-            selected_packages = selected_packages.union(pkgs)
-    if vinca_conf['packages_skip_by_deps']:
+            if not skip_all_deps:
+                pkgs = distro.get_depends(i)
+                selected_packages = selected_packages.union(pkgs)
+    if not skip_all_deps and vinca_conf['packages_skip_by_deps']:
         for i in vinca_conf['packages_skip_by_deps']:
             skipped_packages = skipped_packages.union([i])
             pkgs = distro.get_depends(i)

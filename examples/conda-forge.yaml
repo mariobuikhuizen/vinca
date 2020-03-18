@@ -97,7 +97,8 @@ python3-netifaces:
 python-paramiko:
   any: [paramiko]
 sbcl:
-  any: []
+  win64: []
+  unix: [sbcl]
 lz4:
   any: [lz4]
 python-defusedxml:
@@ -175,13 +176,13 @@ libfreetype6-dev:
 libfreetype6:
   any: [freetype]
 opengl:
-  any: []
+  unix: [REQUIRE_OPENGL]
 libxaw:
-  any: []
+  unix: ['xorg-libxaw']
 libx11-dev:
-  any: []
+  unix: []
 libxrandr:
-  any: []
+  unix: [xorg-libxrandr]
 libopencv-dev:
   any: [opencv 3*]
 qt5-qmake:
