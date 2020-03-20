@@ -1,5 +1,27 @@
+diff --git a/cmake/catkin_package.cmake b/cmake/catkin_package.cmake
+index df36e236..475eb975 100644
+--- a/cmake/catkin_package.cmake
++++ b/cmake/catkin_package.cmake
+@@ -254,6 +254,17 @@ function(_catkin_package)
+     list(APPEND _PKG_CONFIG_LIBRARIES ${PROJECT_DEPENDENCIES_LIBRARIES})
+   endif()
+ 
++  set(_CONDA_ADJUSTED_PKG_CONFIG "")
++  foreach(library ${_PKG_CONFIG_LIBRARIES})
++    get_filename_component(library_fn "${library}" NAME_WE)
++    if ("${library_fn}" MATCHES "lib(pthread|rt|dl)$")
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${CMAKE_MATCH_1})
++    else()
++      list(APPEND _CONDA_ADJUSTED_PKG_CONFIG ${library})
++    endif()
++  endforeach()
++  set(_PKG_CONFIG_LIBRARIES ${_CONDA_ADJUSTED_PKG_CONFIG})
++
+   # resolve imported library targets
+   catkin_replace_imported_library_targets(_PKG_CONFIG_LIBRARIES ${_PKG_CONFIG_LIBRARIES})
+ 
 diff --git a/cmake/templates/_setup_util.py.in b/cmake/templates/_setup_util.py.in
-index 0b0d6dda..81469aac 100755
+index 0b0d6dda..2b86a079 100755
 --- a/cmake/templates/_setup_util.py.in
 +++ b/cmake/templates/_setup_util.py.in
 @@ -1,4 +1,4 @@
@@ -21,26 +43,19 @@ index 0b0d6dda..81469aac 100755
  }
  
  
-@@ -273,14 +273,14 @@ if __name__ == '__main__':
-             # don't consider any other prefix path than this one
-             CMAKE_PREFIX_PATH = []
-         # prepend current workspace if not already part of CPP
--        base_path = os.path.dirname(__file__)
-+        # base_path = os.path.dirname(__file__)
-         # CMAKE_PREFIX_PATH uses forward slash on all platforms, but __file__ is platform dependent
-         # base_path on Windows contains backward slashes, need to be converted to forward slashes before comparison
--        if os.path.sep != '/':
--            base_path = base_path.replace(os.path.sep, '/')
-+        # if os.path.sep != '/':
-+        #     base_path = base_path.replace(os.path.sep, '/')
- 
--        if base_path not in CMAKE_PREFIX_PATH:
--            CMAKE_PREFIX_PATH.insert(0, base_path)
-+        # if base_path not in CMAKE_PREFIX_PATH:
-+        #     CMAKE_PREFIX_PATH.insert(0, base_path)
-         CMAKE_PREFIX_PATH = os.pathsep.join(CMAKE_PREFIX_PATH)
- 
-         environ = dict(os.environ)
+diff --git a/cmake/templates/pkgConfig.cmake.in b/cmake/templates/pkgConfig.cmake.in
+index 4e52046d..899a0c07 100644
+--- a/cmake/templates/pkgConfig.cmake.in
++++ b/cmake/templates/pkgConfig.cmake.in
+@@ -119,7 +119,7 @@ endif()
+ set(libraries "@PKG_CONFIG_LIBRARIES@")
+ foreach(library ${libraries})
+   # keep build configuration keywords, target names and absolute libraries as-is
+-  if("${library}" MATCHES "^(debug|optimized|general)$")
++  if("${library}" MATCHES "^(debug|optimized|general|rt|pthread|dl)$")
+     list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
+   elseif(${library} MATCHES "^-l")
+     list(APPEND @PROJECT_NAME@_LIBRARIES ${library})
 diff --git a/cmake/templates/setup.sh.in b/cmake/templates/setup.sh.in
 index 07e52769..a562e09c 100644
 --- a/cmake/templates/setup.sh.in
