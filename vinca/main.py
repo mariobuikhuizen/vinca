@@ -4,6 +4,7 @@ import argparse
 import catkin_pkg
 import sys
 import os
+import json
 from vinca import __version__
 from .resolve import get_conda_index
 from .resolve import resolve_pkgname
@@ -40,6 +41,9 @@ def parse_command_line(argv):
     parser.add_argument(
         "-d", "--dir", dest="dir", default=default_dir,
         help="The directory to process (default: {}).".format(default_dir))
+    parser.add_argument(
+        "-s", "--skip", dest="skip_already_built_repodata", default=[],
+        help="Skip already built from repodata.")
     arguments = parser.parse_args(argv[1:])
     return arguments
 
@@ -63,7 +67,7 @@ def generate_output(pkg_shortname, vinca_conf, distro):
     if pkg_shortname not in vinca_conf['_selected_pkgs']:
         return None
     pkg_names = resolve_pkgname(pkg_shortname, vinca_conf, distro)
-    if not pkg_names:
+    if not pkg_names or pkg_names[0] in vinca_conf['skip_built_packages']:
         return None
     output = {
         'name': pkg_names[0],
@@ -134,10 +138,13 @@ def generate_output(pkg_shortname, vinca_conf, distro):
     output['requirements']['host'] = sorted(output['requirements']['host'])
 
     # fix up OPENGL support for Unix
-    if 'REQUIRE_OPENGL' in output['requirements']['run']:
+    if 'REQUIRE_OPENGL' in output['requirements']['run'] or 'REQUIRE_OPENGL' in output['requirements']['host']:
         # add requirements for opengl
-        output['requirements']['run'].remove('REQUIRE_OPENGL')
-        output['requirements']['host'].remove('REQUIRE_OPENGL')
+        if 'REQUIRE_OPENGL' in output['requirements']['run']:
+            output['requirements']['run'].remove('REQUIRE_OPENGL')
+        if 'REQUIRE_OPENGL' in output['requirements']['host']:
+            output['requirements']['host'].remove('REQUIRE_OPENGL')
+
         output['requirements']['build'] += [
             "{{ cdt('mesa-libgl-devel') }}  [linux]",
             "{{ cdt('mesa-dri-drivers') }}  [linux]",
@@ -145,8 +152,14 @@ def generate_output(pkg_shortname, vinca_conf, distro):
             "{{ cdt('libxdamage') }}  [linux]",
             "{{ cdt('libxxf86vm') }}  [linux]"
         ]
-        output['requirements']['host'] += ['xorg-libxfixes  [linux]']
-        output['requirements']['run'] += ['xorg-libxfixes  [linux]']
+        output['requirements']['host'] += [
+            'xorg-libxfixes  [linux]',
+            'xorg-libxext  [linux]'
+        ]
+        output['requirements']['run'] += [
+            'xorg-libxfixes  [linux]',
+            'xorg-libxext  [linux]'
+        ]
 
     return output
 
@@ -168,7 +181,7 @@ def generate_source(distro, vinca_conf):
         entry['git_url'] = url
         entry['git_rev'] = version
         pkg_names = resolve_pkgname(pkg_shortname, vinca_conf, distro)
-        if not pkg_names:
+        if not pkg_names or pkg_names[0] in vinca_conf['skip_built_packages']:
             continue
         pkg_name = pkg_names[0]
         entry['folder'] = '%s/src/work' % pkg_name
@@ -198,6 +211,7 @@ def get_selected_packages(distro, vinca_conf):
             skipped_packages = skipped_packages.union([i])
             pkgs = distro.get_depends(i)
             skipped_packages = skipped_packages.union(pkgs)
+
     return selected_packages.difference(skipped_packages)
 
 
@@ -209,6 +223,16 @@ def main():
     vinca_yaml = os.path.join(base_dir, 'vinca.yaml')
     vinca_conf = read_vinca_yaml(vinca_yaml)
     vinca_conf['_conda_indexes'] = get_conda_index(vinca_conf)
+    if arguments.skip_already_built_repodata:
+        skip_built_packages = set()
+        fn = arguments.skip_already_built_repodata
+        with open(fn) as fi:
+            repodata = json.load(fi)
+            for _, pkg in repodata.get('packages').items():
+                skip_built_packages.add(pkg['name'])
+        vinca_conf['skip_built_packages'] = skip_built_packages
+    else:
+        vinca_conf['skip_built_packages'] = []
 
     distro = Distro(vinca_conf['ros_distro'])
 

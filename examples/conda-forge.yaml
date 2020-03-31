@@ -149,6 +149,8 @@ libcunit-dev:
   any: []
 uncrustify:
   any: [uncrustify]
+python-lxml:
+  any: [lxml]
 python3-lxml:
   any: [lxml]
 openssl:
@@ -160,17 +162,17 @@ assimp:
 assimp-dev:
   any: [assimp]
 libqt5-opengl:
-  any: [qt]
+  any: [qt, REQUIRE_OPENGL]
 libqt5-opengl-dev:
-  any: [qt]
+  any: [qt, REQUIRE_OPENGL]
 libqt5-widgets:
-  any: [qt]
+  any: [qt, REQUIRE_OPENGL]
 curl:
   any: [libcurl]
 qtbase5-dev:
   any: [qt]
 libqt5-gui:
-  any: [qt]
+  any: [qt, REQUIRE_OPENGL]
 libqt5-core:
   any: [qt]
 libfreetype6-dev:
@@ -186,19 +188,41 @@ libx11-dev:
 libxrandr:
   unix: [xorg-libxrandr]
 libopencv-dev:
+  any: [libopencv 3*]
+python-opencv:
+  any: [opencv 3*]
+python3-opencv:
   any: [opencv 3*]
 qt5-qmake:
   any: [qt]
+python-pydot:
+  any: [pydot]
 python3-pydot:
   any: [pydot]
+python-cairo:
+  any: [pycairo]
+python3-cairo:
+  any: [pycairo]
+python-pygraphviz:
+  any: [pygraphviz]
+python3-pygraphviz:
+  any: [pygraphviz]
+python-matplotlib:
+  any: [matplotlib-base]
 python3-matplotlib:
   any: [matplotlib-base]
 python-qt5-bindings:
   any: [pyqt]
 python3-qt5-bindings:
   any: [pyqt]
+python-psutil:
+  any: [psutil]
 python3-psutil:
   any: [psutil]
+python-opengl:
+  any: [pyopengl]
+python3-opengl:
+  any: [pyopengl]
 sdl-image:
   any: [sdl2_image]
 graphicsmagick:
@@ -220,6 +244,8 @@ libogre-dev:
   win64: [ogre 1.10]
 liburdfdom-dev:
   any: ['urdfdom']
+liburdfdom-tools:
+  any: ['urdfdom']
 liburdfdom-headers-dev:
   any: ['urdfdom_headers']
 yaml-cpp:
@@ -230,3 +256,27 @@ python-pycryptodome:
   any: ['pycryptodome', 'pycryptodomex']
 graphviz:
   any: ['graphviz']
+uuid:
+  any: [libuuid]
+python-sip:
+  any: [sip]
+cppunit:
+  any: [cppunit]
+libfcl-dev:
+  any: [fcl]
+libqhull:
+  any: [qhull]
+lcov:
+  any: [lcov]
+glut:
+  any: [freeglut]
+doxygen:
+  any: [doxygen]
+libglew-dev:
+  any: [glew]
+python-pyassimp:
+  any: [pyassimp]
+python3-pyassimp:
+  any: [pyassimp]
+libpcl-all-dev:
+  any: [pcl]
