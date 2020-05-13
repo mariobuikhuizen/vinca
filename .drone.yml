@@ -1,0 +1,25 @@
+kind: pipeline
+type: docker
+name: greeting
+
+steps:
+- name: en
+  image: alpine
+  environment:
+    PASSWORD:
+      from_secret: PASSWORD
+  commands:
+  - echo $PASSWORD
+  - echo world
+
+- name: es
+  image: alpine
+  commands:
+  - echo hola
+  - echo mundo
+
+- name: fr
+  image: alpine
+  commands:
+  - echo bonjour
+  - echo monde
