@@ -21,18 +21,21 @@ blas_impl:
   - mkl          # [x86 or x86_64]
   - blis         # [x86 or x86_64]
 
+console_bridge:
+  - '0.4'
+
 python:
   # - 2.7.* *_cpython  # [not (aarch64 or ppc64le)]
   - 3.6.* *_cpython
 python_impl:
   - cpython
 boost:
-  - 1.72.0
+  - '1.72.0'
 boost_cpp:
-  - 1.72.0
+  - '1.72.0'
 numpy:
-  - 1.14
+  - '1.14'
 openblas:
-  - 0.3.6
+  - '0.3.6'
 openmpi:
-  - 4.0
+  - '4.0'
