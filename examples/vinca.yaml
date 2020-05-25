@@ -10,7 +10,13 @@ skip_all_deps: true
 packages_skip_by_deps:
 
 packages_select_by_deps:
-  - rviz
+  # - rviz
+  - rosapi
+  - rosbridge_library
+  - rosbridge_msgs
+  - rosbridge_server
+  - rosbridge_suite
+  - rosauth
   # - urdf_parser_plugin
   # - urdf
   # - ros_core

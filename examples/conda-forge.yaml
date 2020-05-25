@@ -316,3 +316,11 @@ python3-pyassimp:
   conda-forge: [assimp]
 libpcl-all-dev:
   conda-forge: [pcl]
+python-twisted-core:
+  conda-forge: [twisted]
+python-tornado:
+  conda-forge: [tornado]
+python-autobahn:
+  conda-forge: [autobahn]
+python-bson:
+  conda-forge: [bson]
