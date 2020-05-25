@@ -17,6 +17,8 @@ packages_select_by_deps:
   - rosbridge_server
   - rosbridge_suite
   - rosauth
+  - rospy_tutorials
+  - roscpp_tutorials
   # - urdf_parser_plugin
   # - urdf
   # - ros_core

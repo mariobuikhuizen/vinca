@@ -323,4 +323,4 @@ python-tornado:
 python-autobahn:
   conda-forge: [autobahn]
 python-bson:
-  conda-forge: [bson]
+  conda-forge: [pymongo]
