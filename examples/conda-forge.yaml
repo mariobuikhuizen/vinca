@@ -49,7 +49,7 @@ python-coverage:
 python3-coverage:
   conda-forge: [coverage]
 libconsole-bridge-dev:
-  conda-forge: [console_bridge]
+  conda-forge: [console_bridge 0.4]
 python-yaml:
   conda-forge: [pyyaml]
 python3-yaml:

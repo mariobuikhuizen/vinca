@@ -11,14 +11,15 @@ packages_skip_by_deps:
 
 packages_select_by_deps:
   # - rviz
-  - rosapi
-  - rosbridge_library
-  - rosbridge_msgs
-  - rosbridge_server
-  - rosbridge_suite
+  - tf2_web_republisher
   - rosauth
-  - rospy_tutorials
-  - roscpp_tutorials
+  # - rosapi
+  # - rosbridge_library
+  # - rosbridge_msgs
+  # - rosbridge_server
+  # - rosbridge_suite
+  # - rospy_tutorials
+  # - roscpp_tutorials
   # - urdf_parser_plugin
   # - urdf
   # - ros_core
